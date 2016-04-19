@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/babel">
+
+      var headers = ['Book', 'Author', 'Languaje', 'Published', 'Sales'];
+
+      var data = [
+        ["The Lord of the Rings", "J. R. R. Tolkien", "English", "1954–1955", "150 million"],
+        ["Le Petit Prince (The Little Prince)", "Antoine de Saint-Exupéry", "French", "1943", "140 million"],
+        ["Harry Potter and the Philosopher's Stone", "J. K. Rowling", "English", "1997", "107 million"],
+        ["And Then There Were None", "Agatha Christie", "English", "1939", "100 million"],
+        ["Dream of the Red Chamber", "Cao Xueqin", "Chinese", "1754–1791", "100 million"],
+        ["The Hobbit", "J. R. R. Tolkien", "English", "1937", "100 million"],
+        ["She: A History of Adventure", "H. Rider Haggard", "English", "1887", "100 million"]
+      ];
+
+      var Excel = React.createClass({
+        propTypes: {
+            headers: React.PropTypes.arrayOf(
+              React.PropTypes.string
+            ),
+            initialData: React.PropTypes.arrayOf(
+              React.PropTypes.arrayOf(
+                React.PropTypes.string
+              )
+            )
+        },
+        getInitialState: function () {
+            return { data: this.props.initialData };
+        },
+        render: function() {
+          var headers = this.props.headers.map(function(title, idx) {
+            return (
+              <th key={idx}>{title}</th>
+            );
+          });
+
+          var bodyContent = this.state.data.map(function(row, idx) {
+            var columns = row.map(function(column, idx){
+              return (
+                <td key={idx}>{column}</td>
+              );
+            });
+            return (
+              <tr key={idx}>{columns}</tr>
+            );
+          });
+          return (
+            <table>
+              <thead>
+                <tr>{headers}</tr>
+              </thead>
+              <tbody>
+                {bodyContent}
+              </tbody>
+            </table>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <Excel headers={headers} initialData={data} />,
+        document.getElementById('content')
+      );
+
+    </script>
+  </body>
+</html>
